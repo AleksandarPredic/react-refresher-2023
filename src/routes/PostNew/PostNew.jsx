@@ -48,6 +48,7 @@ export async function action({request}) {
   // formData.get('body');
 
   try {
+    // TODO: unify all the requests in one class, so we don't have the similar code repeating for each request
     const response = await fetch(
       'http://localhost:8080/posts', {
         method: 'POST',

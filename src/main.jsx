@@ -5,6 +5,7 @@ import Posts, {loader as postsLoader} from './routes/Posts.jsx'
 import './index.css'
 import RootLayout from "./routes/RootLayout";
 import PostNew, {action as newPostAction} from "./routes/PostNew/PostNew";
+import PostDetails, {loader as postDetailsLoader} from "./routes/PostDetails/PostDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,12 @@ const router = createBrowserRouter([
             // We can use react-router-dom action, which accepts a function, which is triggered when the form is submitted in this route
             // Important: This action will run when the form is submitted in the
             action: newPostAction
+          },
+          {
+            // Here we use a relative path to the parent, in this case the parent is /. We can also use the apsolute path as for the /create-post.
+            path: ':id',
+            element: <PostDetails />,
+            loader: postDetailsLoader
           }
         ]
       },

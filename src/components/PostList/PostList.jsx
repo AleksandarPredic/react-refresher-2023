@@ -9,7 +9,8 @@ function PostList() {
   const listItems = posts !== null ? posts.map(
     post => <Post
       // Create a slug from string
-      key={(post.author + post.id).replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}
+      key={post.id}
+      id={post.id}
       author={post.author}
       body={post.body}
     />

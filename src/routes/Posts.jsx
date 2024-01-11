@@ -16,11 +16,12 @@ export default Posts;
 
 export async function loader() {
   try {
+    // TODO: unify all the requests in one class, so we don't have the similar code repeating for each request
     const response = await fetch(
-      'http://localhost:8080/posts', {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      });
+    'http://localhost:8080/posts', {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
 
     if (! response.ok) {
       const errorData = await response.json();
@@ -31,7 +32,7 @@ export async function loader() {
 
     const resData = await response.json();
 
-    return resData.posts;
+    return resData.posts.length ? resData.posts : null;
 
   } catch (error) {
     // Handle the "Failed to fetch" error or any other errors
@@ -39,5 +40,4 @@ export async function loader() {
 
     return null;
   }
-  
 }
