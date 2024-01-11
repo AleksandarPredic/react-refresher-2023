@@ -16,6 +16,10 @@ function PostList() {
   ) : [];
 
   let content = null;
+  if (posts === null) {
+    content = <h2>Error fetching posts!</h2>;
+  }
+
   if (listItems.length < 1 && posts !== null) {
     content = <h2>No posts</h2>;
   }

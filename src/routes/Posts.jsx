@@ -1,5 +1,5 @@
 import PostList from "../components/PostList/PostList.jsx";
-import {Outlet} from 'react-router-dom';
+import {Outlet, redirect} from 'react-router-dom';
 
 function Posts() {
   return (
@@ -15,13 +15,29 @@ function Posts() {
 export default Posts;
 
 export async function loader() {
-  const response = await fetch(
-    'http://localhost:8080/posts', {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    });
+  try {
+    const response = await fetch(
+      'http://localhost:8080/posts', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      });
 
-  const resData = await response.json();
+    if (! response.ok) {
+      const errorData = await response.json();
+      console.error('Response error:', errorData);
 
-  return resData.posts;
+      return null;
+    }
+
+    const resData = await response.json();
+
+    return resData.posts;
+
+  } catch (error) {
+    // Handle the "Failed to fetch" error or any other errors
+    console.error('Error fetching data:', error.message);
+
+    return null;
+  }
+  
 }

@@ -47,27 +47,34 @@ export async function action({request}) {
   // The alternative way to get the post data is to use formData.get
   // formData.get('body');
 
-  const response = await fetch(
-    'http://localhost:8080/posts', {
-      method: 'POST',
-      body: JSON.stringify(postData),
-      headers: {'Content-Type': 'application/json'},
+  try {
+    const response = await fetch(
+      'http://localhost:8080/posts', {
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers: {'Content-Type': 'application/json'},
+      }
+    );
+
+    if (! response.ok) {
+      const errorData = await response.json();
+      console.error('Error:', errorData);
+
+    } else {
+      // In this case I need no data from response
+      //const resData = await response.json();
     }
-  );
 
-  if (!response.ok) {
-    // TODO: Handle the error
-    const errorData = await response.json();
-    console.error('Error:', errorData);
-  } else {
-    // In this case I need no data from response
-    //const resData = await response.json();
+  } catch (error) {
+    // Handle the "Failed to fetch" error or any other errors
+    console.error('Error storing post:', error.message);
 
-    return redirect('/');
+    // TODO: Redirect to some error storing post page maybe?
   }
 
   /*
    * The main difference between useNavigate which we used to navigate between routes previously and redirect is that
    * useNavigate is a hook that returns a function, while redirect is a function that returns a response object.
    */
+  return redirect('/');
 }
